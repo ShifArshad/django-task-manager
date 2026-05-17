@@ -1,0 +1,38 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Task App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+        <h2 class="text-3xl font-extrabold text-slate-800 mb-2 text-center tracking-tight">Welcome Back</h2>
+        <p class="text-slate-500 text-sm text-center mb-6">Sign in to manage your daily workspace.</p>
+        
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            <!-- This pipe operator applies beautiful Tailwind styles instantly -->
+            <div class="text-slate-700 font-medium">
+                {{ form|crispy }}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition duration-200 mt-4 shadow-md tracking-wide">
+                Sign In
+            </button>
+        </form>
+
+        <div class="mt-6 text-center border-t border-slate-100 pt-4">
+            <p class="text-sm text-slate-500">
+                Don't have an account? 
+                <a href="{% url 'register' %}" class="text-blue-600 hover:text-blue-700 hover:underline font-semibold">Create one here</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

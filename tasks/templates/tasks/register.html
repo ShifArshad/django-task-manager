@@ -1,0 +1,38 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Task App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+        <h2 class="text-2xl font-bold text-slate-800 mb-2 text-center">Create an Account</h2>
+        <p class="text-slate-500 text-sm text-center mb-6">Join us to start managing your personal tasks safely.</p>
+        
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            <!-- Django will generate the Username, Password, and Password Confirmation fields safely -->
+            <div class="space-y-2 text-slate-600 text-sm">
+                {{ form|crispy }}
+            </div>
+
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-4 rounded-xl transition duration-200 mt-4 shadow-md">
+                Sign Up & Start
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-slate-500">
+                Already have an account? 
+                <a href="{% url 'login' %}" class="text-blue-600 hover:underline font-medium">Log In</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

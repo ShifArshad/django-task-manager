@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Task Portfolio</title>
+    <!-- Load Tailwind CSS instantly -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gray-100 font-sans min-h-screen flex items-center justify-center p-6"
+  >
+    <!-- Main Container -->
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+      <!-- Header Section -->
+      <!-- User Session Header Bar -->
+      <div
+        class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6"
+      >
+        <div>
+          <p
+            class="text-xs text-slate-400 font-semibold uppercase tracking-wider"
+          >
+            Current Workspace
+          </p>
+          <!-- Displays the active user's username dynamically -->
+          <h2 class="text-lg font-bold text-slate-700">
+            👤 {{ request.user.username }}
+          </h2>
+        </div>
+
+        <!-- Secure Logout Form Trigger -->
+        <form action="{% url 'logout' %}" method="POST" class="inline">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-600 font-semibold py-1.5 px-3 rounded-xl text-xs transition duration-150 border border-transparent hover:border-red-100"
+          >
+            Log Out
+          </button>
+        </form>
+      </div>
+      <!-- New Task Form Section -->
+      <form method="POST" class="mb-6 flex space-x-2">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="title"
+          placeholder="Add a new task..."
+          required
+          class="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+        />
+        <button
+          type="submit"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2.5 rounded-xl transition duration-200 shadow-md hover:shadow-lg"
+        >
+          Add
+        </button>
+      </form>
+
+      <!-- Task List -->
+      <ul class="space-y-3">
+        {% for task in tasks %}
+        <li
+          class="flex items-center justify-between p-4 rounded-xl transition duration-200 {% if task.complete %} bg-gray-50 border border-gray-200 text-gray-400 {% else %} bg-blue-50 border border-blue-100 text-gray-700 hover:bg-blue-100 {% endif %}"
+        >
+          <!-- Left Side: Toggle Status Form Link -->
+          <form
+            action="{% url 'toggle_task' task.id %}"
+            method="POST"
+            class="flex items-center space-x-3 cursor-pointer flex-1"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="flex items-center space-x-3 w-full text-left focus:outline-none"
+            >
+              {% if task.complete %}
+              <span class="text-green-500 text-xl font-bold">✓</span>
+              <span class="line-through font-medium">{{ task.title }}</span>
+              {% else %}
+              <span class="text-blue-400 text-xl">○</span>
+              <span class="font-medium">{{ task.title }}</span>
+              {% endif %}
+            </button>
+          </form>
+
+          <!-- Right Side: Delete Button Action -->
+          <div class="flex items-center space-x-2">
+            {% if task.complete %}
+            <span
+              class="text-xs bg-gray-200 text-gray-500 px-2 py-0.5 rounded-md mr-2"
+              >Done</span
+            >
+            {% else %}
+            <span
+              class="text-xs bg-blue-200 text-blue-700 px-2 py-0.5 rounded-md font-semibold mr-2"
+              >Pending</span
+            >
+            {% endif %}
+
+            <form
+              action="{% url 'delete_task' task.id %}"
+              method="POST"
+              onsubmit="return confirm('Delete this task?');"
+              class="inline"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="text-red-400 hover:text-red-600 transition duration-150 p-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </li>
+        {% empty %}
+        <li class="text-center py-8 text-gray-400 italic">
+          No tasks found under your account yet! Try adding one above.
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Footer / Call to Action -->
+      <div class="mt-8 pt-4 border-t text-center">
+        <p class="text-xs text-gray-400">
+          Created by Shifana • Day 4 Milestone
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
