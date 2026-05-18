@@ -22,14 +22,14 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='your-local-fallback-secret-key')
+SECRET_KEY = 'django-insecure-local-development-key-12345'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # This ensures detailed error screens don't leak to strangers online
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = True
 
 # Allow your local machine AND your future cloud domain to view the app
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -78,23 +78,16 @@ WSGI_APPLICATION = 'my_website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-if env('DATABASE_URL', default=''):
-    # If a cloud database URL exists, connect to it securely
-    DATABASES = {
-        'default': env.db('DATABASE_URL')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tasks_db',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
-else:
-    # Fallback to your local Docker PostgreSQL setup
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'tasks_db',
-            'USER': 'postgres',
-            'PASSWORD': 'password',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
+}
 
 
 # Password validation
