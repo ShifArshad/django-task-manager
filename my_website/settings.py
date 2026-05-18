@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tasks',
+    'task',
     'crispy_forms',
     'crispy_tailwind',
 ]
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'my_website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'task',
+        'NAME': 'task_db',
         'USER': 'postgres',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',

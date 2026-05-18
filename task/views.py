@@ -16,7 +16,7 @@ def task_list(request):
             
     # If it's a normal page visit (GET request), just fetch and show the tasks
     tasks = Task.objects.filter(user=request.user).order_by('-id') # ' -id' displays newest tasks at the top
-    return render(request, 'tasks/list.html', {'tasks': tasks})
+    return render(request, 'task/list.html', {'tasks': tasks})
 
 @login_required(login_url='login')
 def toggle_task(request, task_id):
